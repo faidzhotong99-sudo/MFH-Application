@@ -86,6 +86,13 @@
             font-size: 1.8rem;
             border: 1px solid var(--accent);
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .app-title {
@@ -161,25 +168,39 @@
             .then(response => response.json())
             .then(apps => {
                 const container = document.getElementById('app-grid');
-                container.innerHTML = apps.map(app => `
-                    <div class="app-card">
-                        <div>
-                            <div class="app-header">
-                                <div class="app-icon">${app.icon || '☪'}</div>
-                                <div>
-                                    <h2 class="app-title">${app.title}</h2>
-                                    <small style="color: var(--text-muted);">v${app.version}</small>
+                container.innerHTML = apps.map(app => {
+                    const isImage = app.icon && (
+                        app.icon.endsWith('.png') || 
+                        app.icon.endsWith('.jpg') || 
+                        app.icon.endsWith('.jpeg') || 
+                        app.icon.endsWith('.webp') || 
+                        app.icon.endsWith('.svg')
+                    );
+                    
+                    const iconHtml = isImage 
+                        ? `<img src="${app.icon}" alt="${app.title} icon">` 
+                        : (app.icon || '☪');
+
+                    return `
+                        <div class="app-card">
+                            <div>
+                                <div class="app-header">
+                                    <div class="app-icon">${iconHtml}</div>
+                                    <div>
+                                        <h2 class="app-title">${app.title}</h2>
+                                        <small style="color: var(--text-muted);">v${app.version}</small>
+                                    </div>
                                 </div>
+                                <p class="app-description">${app.description}</p>
                             </div>
-                            <p class="app-description">${app.description}</p>
+                            <div class="download-links">
+                                ${app.links.map(link => `
+                                    <a href="${link.url}" class="btn btn-${link.type || 'primary'}" download>${link.label}</a>
+                                `).join('')}
+                            </div>
                         </div>
-                        <div class="download-links">
-                            ${app.links.map(link => `
-                                <a href="${link.url}" class="btn btn-${link.type || 'primary'}" download>${link.label}</a>
-                            `).join('')}
-                        </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             })
             .catch(error => console.error('Error loading apps:', error));
     </script>
