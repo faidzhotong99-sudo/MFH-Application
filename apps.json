@@ -1,1 +1,16 @@
 
+[
+  {
+    "title": "Islamic Quiz MFH",
+    "version": "1.1.0",
+    "icon": "🧠",
+    "description": "Test and expand your knowledge with interactive Islamic quizzes.",
+    "links": [
+      {
+        "label": "Download APK",
+        "url": "Islamic%20Quiz%20MFH_1_1.0.apk",
+        "type": "primary"
+      }
+    ]
+  }
+]
