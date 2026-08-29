@@ -30,17 +30,93 @@
             min-height: 100vh;
         }
 
+        /* Animated Mosaic & Glitter Header */
         header {
+            position: relative;
             background-color: var(--primary);
             color: white;
             text-align: center;
-            padding: 2.5rem 1rem;
+            padding: 3.5rem 1rem;
             border-bottom: 4px solid var(--accent);
+            overflow: hidden;
+        }
+
+        /* Pure CSS Looping Islamic Mosaic Pattern */
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            opacity: 0.18;
+            background-image: 
+                radial-gradient(circle, var(--accent) 2px, transparent 2px),
+                radial-gradient(circle, var(--accent) 2px, transparent 2px),
+                linear-gradient(45deg, transparent 74%, rgba(212, 175, 55, 0.4) 75%, transparent 76%),
+                linear-gradient(-45deg, transparent 74%, rgba(212, 175, 55, 0.4) 75%, transparent 76%);
+            background-size: 40px 40px, 40px 40px, 60px 60px, 60px 60px;
+            background-position: 0 0, 20px 20px, 0 0, 0 0;
+            animation: rotateMosaic 60s linear infinite;
+            z-index: 1;
+        }
+
+        /* Glitter Overlay Effect */
+        header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                rgba(255, 223, 118, 0.3) 50%, 
+                transparent
+            );
+            transform: skewX(-25deg);
+            animation: glitterShine 6s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        header h1, header p {
+            position: relative;
+            z-index: 3;
         }
 
         header h1 {
             font-size: 2.2rem;
             margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.05rem;
+            opacity: 0.95;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animations */
+        @keyframes rotateMosaic {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
+        }
+
+        @keyframes glitterShine {
+            0% {
+                left: -100%;
+            }
+            30%, 100% {
+                left: 200%;
+            }
         }
 
         main {
@@ -77,22 +153,21 @@
         .app-icon {
             width: 60px;
             height: 60px;
-            background: var(--primary);
-            color: var(--accent);
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.8rem;
-            border: 1px solid var(--accent);
             flex-shrink: 0;
             overflow: hidden;
+            background-color: transparent;
         }
 
         .app-icon img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 14px;
         }
 
         .app-title {
@@ -150,7 +225,7 @@
 
     <header>
         <h1>MFH Islamic App Suite</h1>
-        <p>Free Islamic Application para si Android Phone</p>
+        <p>Select and download our applications for mobile and desktop</p>
     </header>
 
     <main>
@@ -160,7 +235,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 MFH Islamic App Suite by Abu Sayyed Hotong. All rights reserved.</p>
+        <p>&copy; 2026 MFH Islamic App Suite. All rights reserved.</p>
     </footer>
 
     <script>
