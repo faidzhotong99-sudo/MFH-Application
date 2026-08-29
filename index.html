@@ -147,72 +147,42 @@
     </header>
 
     <main>
-        <div class="app-grid">
-            
-            <!-- App 1 -->
-            <div class="app-card">
-                <div>
-                    <div class="app-header">
-                        <div class="app-icon">☪</div>
-                        <div>
-                            <h2 class="app-title">MFH Prayer & Qibla</h2>
-                            <small style="color: var(--text-muted);">v1.2.0</small>
-                        </div>
-                    </div>
-                    <p class="app-description">
-                        Accurate prayer timings based on location, Qibla compass, and daily Adhan notifications.
-                    </p>
-                </div>
-                <div class="download-links">
-                    <a href="downloads/mfh-prayer-android.apk" class="btn btn-primary" download>Download Android APK</a>
-                </div>
-            </div>
-
-            <!-- App 2 -->
-            <div class="app-card">
-                <div>
-                    <div class="app-header">
-                        <div class="app-icon">📖</div>
-                        <div>
-                            <h2 class="app-title">MFH Quran Reader</h2>
-                            <small style="color: var(--text-muted);">v1.0.4</small>
-                        </div>
-                    </div>
-                    <p class="app-description">
-                        Full Quran with audio recitations, translations, bookmarking, and offline access support.
-                    </p>
-                </div>
-                <div class="download-links">
-                    <a href="downloads/mfh-quran-android.apk" class="btn btn-primary" download>Download Android APK</a>
-                    <a href="downloads/mfh-quran-windows.exe" class="btn btn-secondary" download>Download Windows Setup</a>
-                </div>
-            </div>
-
-            <!-- App 3 -->
-            <div class="app-card">
-                <div>
-                    <div class="app-header">
-                        <div class="app-icon">🤲</div>
-                        <div>
-                            <h2 class="app-title">MFH Daily Hisn & Azkar</h2>
-                            <small style="color: var(--text-muted);">v1.0.0</small>
-                        </div>
-                    </div>
-                    <p class="app-description">
-                        Collection of authentic daily supplications, morning/evening Azkar, and counter tool.
-                    </p>
-                </div>
-                <div class="download-links">
-                    <a href="downloads/mfh-azkar-android.apk" class="btn btn-primary" download>Download Android APK</a>
-                </div>
-            </div>
-
+        <div id="app-grid" class="app-grid">
+            <!-- Dynamic app cards loaded via JavaScript from apps.json -->
         </div>
     </main>
 
     <footer>
         <p>&copy; 2026 MFH Islamic App Suite. All rights reserved.</p>
     </footer>
+
+    <script>
+        fetch('apps.json')
+            .then(response => response.json())
+            .then(apps => {
+                const container = document.getElementById('app-grid');
+                container.innerHTML = apps.map(app => `
+                    <div class="app-card">
+                        <div>
+                            <div class="app-header">
+                                <div class="app-icon">${app.icon || '☪'}</div>
+                                <div>
+                                    <h2 class="app-title">${app.title}</h2>
+                                    <small style="color: var(--text-muted);">v${app.version}</small>
+                                </div>
+                            </div>
+                            <p class="app-description">${app.description}</p>
+                        </div>
+                        <div class="download-links">
+                            ${app.links.map(link => `
+                                <a href="${link.url}" class="btn btn-${link.type || 'primary'}" download>${link.label}</a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            })
+            .catch(error => console.error('Error loading apps:', error));
+    </script>
 
 </body>
 </html>
